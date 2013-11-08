@@ -65,7 +65,7 @@ LIBDOGE = (function() {
     $('p,h1,h2,h3,h4,h5,div').each(function(){
       content.push($(this).text());
     });
-    console.log(parseWordsFromString(content.join(' ')));
+
     return parseWordsFromString(content.join(' '));
   }
 
