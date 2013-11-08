@@ -57,16 +57,16 @@ LIBDOGE = (function() {
   }
 
   var extractContent = function() {
-    if (typeof jQuery == 'undefined') {
-      return {doge : 1};
+    var tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'div'];
+    var content = [];
+    for (i in tags) {
+      var elements = document.getElementsByTagName(tags[i]);
+      for(j in elements) {
+        content.push(elements[j].textContent);
+      }
     }
 
-    var content = [];
-    $('p,h1,h2,h3,h4,h5,div').each(function(){
-      content.push($(this).text());
-    });
-
-    return parseWordsFromString(content.join(' '));
+   return parseWordsFromString(content.join(' '));
   }
 
   doge.say = function() {
