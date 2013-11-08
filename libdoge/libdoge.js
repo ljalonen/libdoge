@@ -14,6 +14,7 @@ LIBDOGE = (function() {
 
   var divs = [];
 
+
   var parseWordsFromString = function(text) {
     var words = {};
 
@@ -56,12 +57,15 @@ LIBDOGE = (function() {
   }
 
   var extractContent = function() {
-    if (typeof jQuery == 'undefined') return {doge: 1};
+    if (typeof jQuery == 'undefined') {
+      return {doge : 1};
+    }
+
     var content = [];
-    $('p,h1,h2,h3,h4,h5').each(function(){
+    $('p,h1,h2,h3,h4,h5,div').each(function(){
       content.push($(this).text());
     });
-
+    console.log(parseWordsFromString(content.join(' ')));
     return parseWordsFromString(content.join(' '));
   }
 
@@ -135,14 +139,17 @@ LIBDOGE = (function() {
     if (meta_words == null) {
       meta_words = Object.keys(extractMeta(texts));
     }
+
     if (content_words == null) {
       content_words = Object.keys(extractContent());
     }
+    
+
     if (!doge_staring) {
       doge.stare();
     }
 
-    while(divs.length < 5) {
+    while(divs.length < 7) {
       var div_id = 'doge_' + id;
       divs.push(div_id);
 
