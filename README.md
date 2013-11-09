@@ -3,7 +3,7 @@ libdoge
 
 wow such good doge
 
-![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/screenshot.png)
+![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
 
 
 Bookmarklet
