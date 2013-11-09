@@ -114,7 +114,7 @@ LIBDOGE = (function() {
     element.style.zIndex = 999999;
     element.style.opacity = 1;
     element.style.fontSize = '3em';
-    element.style.textShadow = '-2px -2px 2px rgba(150, 150, 150, 1)';
+    element.style.textShadow = '-2px 0px 2px rgba(0, 0, 0, 1)';
     element.style.fontFamily = 'Comic Sans MS';
     element.style.color = 'rgb(' + Math.floor(Math.random()*255) + ',' + 
       Math.floor(Math.random()*255) + ',' + 
@@ -122,7 +122,7 @@ LIBDOGE = (function() {
 
     document.body.appendChild(element);
     
-    setTimeout(function() { doge.go(id,1); },Math.floor(Math.random()*500));
+    setTimeout(function() { doge.go(id,1); },Math.floor(Math.random()*750));
   };
 
   doge.go = function(id, k) {
