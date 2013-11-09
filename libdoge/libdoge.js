@@ -67,7 +67,7 @@ LIBDOGE = (function() {
       }
     }
 
-    words = doge.chew(strings.join(' ').toLowerCase())
+    words = doge.chew(unescape(strings.join(' ').toLowerCase()))
       .split(/[\s\/]+/g).sort();
 
     if (textPresets != null) {
@@ -85,7 +85,7 @@ LIBDOGE = (function() {
       content = document.body.textContent;
     }
 
-    var words = doge.chew(content.toLowerCase().trim())
+    var words = doge.chew(unescape(content.toLowerCase().trim()))
       .split(/[\s\/]+/g).sort();
 
       return doge.digest(words);
