@@ -78,7 +78,14 @@ LIBDOGE = (function() {
   };
 
   doge.tearContent = function() {
-    var words = doge.chew(document.body.innerText.toLowerCase().trim())
+    var content;
+    if(document.all){
+      content = document.body.innerText;
+    } else{
+      content = document.body.textContent;
+    }
+
+    var words = doge.chew(content.toLowerCase().trim())
       .split(/[\s\/]+/g).sort();
 
       return doge.digest(words);
