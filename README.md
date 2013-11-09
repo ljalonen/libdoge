@@ -4,7 +4,8 @@ libdoge
 wow such good doge
 
 ## Usage
-Chrome Extension available at [ChromeStore][ChromeStore]
+Chrome Extension available at Chrome Store
+https://chrome.google.com/webstore/detail/such-good-doge/ifbchccfedjkkhlnffjckaghjdpchhmo
 
 OR
 
@@ -17,5 +18,3 @@ javascript:void((function() %7Bvar element%3Ddocument.createElement(%27script%27
 ![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ljalonen/libdoge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
-[ChromeStore] : https://chrome.google.com/webstore/detail/such-good-doge/ifbchccfedjkkhlnffjckaghjdpchhmo
