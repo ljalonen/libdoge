@@ -17,7 +17,7 @@ LIBDOGE = (function() {
 
   var divs = [];
 
-  var bark = function(text) {
+  doge.chew = function(text) {
     return text.replace(/[\-!^&*()_+|~=`{}\[\]:";'<>?,.\/]/g, ' ');
   }
 
@@ -67,7 +67,7 @@ LIBDOGE = (function() {
       }
     }
 
-    words = bark(strings.join(' ').toLowerCase())
+    words = doge.chew(strings.join(' ').toLowerCase())
       .split(/[\s\/]+/g).sort();
 
     if (textPresets != null) {
@@ -78,14 +78,14 @@ LIBDOGE = (function() {
   };
 
   doge.tearContent = function() {
-    var words = bark(document.body.innerText.toLowerCase().trim())
+    var words = doge.chew(document.body.innerText.toLowerCase().trim())
       .split(/[\s\/]+/g).sort();
 
       return doge.digest(words);
   };
 
 
-  doge.say = function() {
+  doge.bark = function() {
     var text = [];
     text.push(prefixes[Math.floor(Math.random()*prefixes.length)]);
 
@@ -103,7 +103,7 @@ LIBDOGE = (function() {
   doge.come = function(id) {
     var element = document.createElement('div');
     element.setAttribute('id',id);
-    element.innerHTML = doge.say();
+    element.innerHTML = doge.bark();
 
     element.style.position = 'fixed';
     element.style.top = 
