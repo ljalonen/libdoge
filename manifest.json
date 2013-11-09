@@ -1,0 +1,26 @@
+
+{
+  "manifest_version": 2,
+
+  "name": "such good doge",
+  "description": "beautiful doge comes",
+  "version": "0.1.0",
+
+  "icons": {
+    "48" : "img/icon-48.png",
+    "128" : "img/icon-128.png"
+  },
+  "background": {
+    "scripts": [
+      "chrome_load_doge.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "browser_action": {
+    "default_title": "so doge",
+    "default_icon": "img/icon-19.png"
+  }
+}
