@@ -154,7 +154,7 @@ LIBDOGE = (function() {
 
     document.body.appendChild(staring_doge);
 
-    setTimeout(function() {doge.run()}, 5000);
+    doge.run();
   };
 
   doge.moar = function() {
@@ -236,10 +236,7 @@ LIBDOGE = (function() {
     else if (direction == 'down') {
       if (posBottom <= 0) {
         doge.flip(element, 0);
-
-        setTimeout(function() {
-          doge.run('right');
-        }, (Math.random() * 6500));
+        doge.run('right');
         return;
       }
 
