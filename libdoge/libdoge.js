@@ -14,7 +14,6 @@ LIBDOGE = (function() {
 
   var divs = [];
 
-
   var parseWordsFromString = function(text) {
     var words = {};
 
@@ -24,7 +23,8 @@ LIBDOGE = (function() {
     for (i in all_words) {
       if (all_words[i].length>=4) {
 
-        if (prefixes.indexOf(all_words[i]) != -1 || suffixes.indexOf(all_words[i]) != -1) {
+        if (prefixes.indexOf(all_words[i]) != -1 || 
+          suffixes.indexOf(all_words[i]) != -1) {
           continue;
         }
 
@@ -127,6 +127,7 @@ LIBDOGE = (function() {
     var staring_doge = document.createElement('img');
     staring_doge.setAttribute(
       'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
+    staring_doge.zIndex = 999999;
     staring_doge.style.left = 0;
     staring_doge.style.bottom = 0;
     staring_doge.style.position = 'fixed';
@@ -143,7 +144,6 @@ LIBDOGE = (function() {
     if (content_words == null) {
       content_words = Object.keys(extractContent());
     }
-    
 
     if (!doge_staring) {
       doge.stare();
@@ -167,7 +167,6 @@ LIBDOGE = (function() {
 
   return doge;
 }());
-
 
 setInterval(function() {
   LIBDOGE.moar();
