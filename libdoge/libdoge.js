@@ -142,6 +142,7 @@ LIBDOGE = (function() {
 
   doge.stare = function() {
     var staring_doge = document.createElement('img');
+    staring_doge.setAttribute('id', 'thedoge');
     staring_doge.setAttribute(
       'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
     staring_doge.style.position = 'fixed';
@@ -152,6 +153,8 @@ LIBDOGE = (function() {
     doge_staring = true;
 
     document.body.appendChild(staring_doge);
+
+    setTimeout(function() {doge.run()}, 5000);
   };
 
   doge.moar = function() {
@@ -186,6 +189,69 @@ LIBDOGE = (function() {
   doge.puke = function() {
     return {meta_words : meta_words, content_words : content_words};
   };
+
+  doge.flip = function(doge, rotation) {
+    var properties = ['transform', 'WebkitTransform', 'msTransform',
+      'MozTransform', 'OTransform'];
+
+    for(i in properties) {
+      doge.style[properties[i]] = 'rotate(' + rotation + 'deg)';
+    }
+  }
+
+  doge.run = function(direction) {
+    if (direction == null) direction = 'right';
+
+    var element = document.getElementById('thedoge');
+    var posLeft = parseInt(element.style.left.replace('px',''));
+    var posBottom = parseInt(element.style.bottom.replace('px',''));
+
+    if (direction == 'right') {
+      if (posLeft + element.clientWidth >= window.innerWidth) {
+        doge.flip(element, 270);
+        doge.run('up');
+        return;
+      }
+
+      element.style.left = (++posLeft) + 'px';
+    }
+    else if (direction == 'up') {
+      if (posBottom + element.clientWidth >= window.innerHeight) {
+        doge.flip(element, 180);
+        doge.run('left');
+        return;
+      }
+
+      element.style.bottom = (++posBottom) + 'px';
+    }
+    else if (direction == 'left') {
+      if (posLeft <= 0) {
+        doge.flip(element, 90);
+        doge.run('down');
+        return;
+      }
+
+      element.style.left = (--posLeft) + 'px';
+    }
+    else if (direction == 'down') {
+      if (posBottom <= 0) {
+        doge.flip(element, 0);
+
+        setTimeout(function() {
+          doge.run('right');
+        }, (Math.random() * 6500));
+        return;
+      }
+
+      element.style.bottom = (--posBottom) + 'px';
+    }
+
+    setTimeout(
+      function() {
+        doge.run(direction);
+      },1);
+
+  }
 
   return doge;
 }());
