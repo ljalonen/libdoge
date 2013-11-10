@@ -17,6 +17,10 @@ LIBDOGE = (function() {
 
   var divs = [];
 
+  var randomAtRange = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   doge.chew = function(text) {
     return text.replace(/[\-!^&*()_+|~=`{}\[\]:";'<>?,.\/]/g, ' ');
   };
@@ -155,6 +159,7 @@ LIBDOGE = (function() {
     staring_doge.setAttribute('id', 'thedoge');
     staring_doge.setAttribute(
       'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
+    staring_doge.setAttribute('rel', 'bottom');
     staring_doge.style.position = 'fixed';
     staring_doge.style.left = '0px';
     staring_doge.style.bottom = '0px';
@@ -164,7 +169,7 @@ LIBDOGE = (function() {
 
     document.body.appendChild(staring_doge);
 
-    doge.run();
+    doge.plz(document.getElementById('thedoge'));
   };
 
   doge.moar = function() {
@@ -200,65 +205,185 @@ LIBDOGE = (function() {
     return {meta_words : meta_words, content_words : content_words};
   };
 
-  doge.flip = function(doge, rotation) {
+  doge.flip = function(thisdoge, rotation) {
     var properties = ['transform', 'WebkitTransform', 'msTransform',
       'MozTransform', 'OTransform'];
 
+    var sides = {0 : 'bottom', 270 : 'right', 180 : 'top', 90 : 'left'};
+    thisdoge.setAttribute('rel', sides[rotation]);
+
     for(i in properties) {
-      doge.style[properties[i]] = 'rotate(' + rotation + 'deg)';
+      thisdoge.style[properties[i]] = 'rotate(' + rotation + 'deg)';
     }
-  }
+  };
 
-  doge.run = function(direction) {
-    if (direction == null) direction = 'right';
+  var locate = function(thisdoge) {
+    return {left : parseInt(thisdoge.style.left.replace('px','')), 
+      bottom : parseInt(thisdoge.style.bottom.replace('px', '')),
+      side : thisdoge.getAttribute('rel')};
+  };
 
-    var element = document.getElementById('thedoge');
-    var posLeft = parseInt(element.style.left.replace('px',''));
-    var posBottom = parseInt(element.style.bottom.replace('px',''));
+  doge.teleport = function(thisdoge, is_hidden) {
+    var sides = ['top', 'bottom', 'left', 'right'];
+    var side = sides[Math.floor(sides.length * Math.random())];
+    thisdoge.setAttribute('rel', side);
 
-    if (direction == 'right') {
-      if (posLeft + element.clientWidth >= window.innerWidth) {
-        doge.flip(element, 270);
-        doge.run('up');
-        return;
-      }
-
-      element.style.left = (++posLeft) + 'px';
+    if (is_hidden == null) {
+      is_hidden = false;
     }
-    else if (direction == 'up') {
-      if (posBottom + element.clientWidth >= window.innerHeight) {
-        doge.flip(element, 180);
-        doge.run('left');
-        return;
-      }
 
-      element.style.bottom = (++posBottom) + 'px';
+    if (side == 'top') {
+      doge.flip(thisdoge, 180);
+      var bottom = (is_hidden) ? 
+        window.innerHeight : (window.innerHeight - thisdoge.clientHeight);
+      thisdoge.style.bottom = bottom + 'px';
+      thisdoge.style.left = randomAtRange(0, window.innerWidth - thisdoge.clientWidth) + 'px';
     }
-    else if (direction == 'left') {
-      if (posLeft <= 0) {
-        doge.flip(element, 90);
-        doge.run('down');
-        return;
-      }
-
-      element.style.left = (--posLeft) + 'px';
+    else if (side == 'bottom') {
+      doge.flip(thisdoge, 0);
+      var bottom = (is_hidden) ? -thisdoge.clientHeight : 0;
+      thisdoge.style.bottom = bottom + 'px';
+      thisdoge.style.left = randomAtRange(0, window.innerWidth - thisdoge.clientWidth) + 'px';
     }
-    else if (direction == 'down') {
-      if (posBottom <= 0) {
-        doge.flip(element, 0);
-        doge.run('right');
-        return;
-      }
+    else if (side == 'left') {
+      doge.flip(thisdoge, 90);
+      thisdoge.style.bottom = randomAtRange(0, window.innerHeight - thisdoge.clientWidth) + 'px';
+      var left = (is_hidden) ? -thisdoge.clientHeight : 0;
+      thisdoge.style.left = left + 'px';
+    }
+    else if (side == 'right') {
+      doge.flip(thisdoge, 270);
+      thisdoge.style.bottom = randomAtRange(0, window.innerHeight - thisdoge.clientWidth) + 'px';
+      var left = (is_hidden) ? window.innerWidth : (window.innerWidth - thisdoge.clientHeight);
+      thisdoge.style.left = left + 'px';
+    }
+  };
 
-      element.style.bottom = (--posBottom) + 'px';
+  doge.hide = function(thisdoge) {
+    var location = locate(thisdoge);
+    var doge_hidden = false;
+
+    if (location.side == 'bottom') {
+      thisdoge.style.bottom = (location.bottom - 1) + 'px';
+      doge_hidden = ((location.bottom - 1) == -thisdoge.clientHeight);
+    }
+    else if (location.side == 'right') {
+      thisdoge.style.left = (location.left + 1) + 'px';
+      doge_hidden = ((location.left + 1) == window.innerWidth);
+    }
+    else if (location.side == 'top') {
+      thisdoge.style.bottom = (location.bottom + 1) + 'px';
+      doge_hidden = ((location.bottom + 1) == window.innerHeight);
+    }
+    else if (location.side == 'left') {
+      thisdoge.style.left = (location.left - 1) + 'px';
+      doge_hidden = ((location.left - 1) == -thisdoge.clientHeight);
+    }
+
+    if (!doge_hidden) {
+      setTimeout(function() {doge.hide(thisdoge)}, 1);
+    }
+    else {
+      setTimeout(function() {
+        doge.teleport(thisdoge, true);
+        doge.ambush(thisdoge);
+      }, Math.random()*2500);
+    }
+  };
+
+  doge.ambush = function(thisdoge) {
+    var location = locate(thisdoge);
+    var doge_visible = false;
+
+    if (location.side == 'bottom') {
+      thisdoge.style.bottom = (location.bottom + 1) + 'px';
+      doge_visible = ((location.bottom + 1) == 0);
+    }
+    else if (location.side == 'right') {
+      thisdoge.style.left = (location.left - 1) + 'px';
+      doge_visible = ((location.left - 1) == window.innerWidth - thisdoge.clientHeight);
+    }
+    else if (location.side == 'top') {
+      thisdoge.style.bottom = (location.bottom - 1) + 'px';
+      doge_visible = ((location.bottom - 1) == window.innerHeight - thisdoge.clientHeight);
+    }
+    else if (location.side == 'left') {
+      thisdoge.style.left = (location.left + 1) + 'px';
+      doge_visible = ((location.left + 1) == 0);
+    }
+
+    if (!doge_visible) {
+      setTimeout(function() {doge.ambush(thisdoge)}, 1);
+    }
+    else {
+      setTimeout(function() {
+        doge.plz(thisdoge);
+      }, Math.random()*2500);
+    }
+
+  };
+
+  doge.plz = function(thisdoge) {
+    var location = locate(thisdoge);
+    var action = Math.random();
+
+    if (action < 0.5) {
+      var distance = randomAtRange(500, 1000);
+
+      doge.run(thisdoge, distance);
+    }
+    else {
+      doge.hide(thisdoge);
+    }
+  };
+
+  doge.run = function(thisdoge, distance) {
+    var location = locate(thisdoge);
+
+    if (location.side == 'bottom') {
+      if (location.left + thisdoge.clientWidth >= window.innerWidth) {
+        doge.flip(thisdoge, 270);
+      }
+      else {
+        thisdoge.style.left = (location.left + 1) + 'px';  
+      }      
+    }
+    else if (location.side == 'right') {
+      if (location.bottom + thisdoge.clientWidth >= window.innerHeight) {
+        doge.flip(thisdoge, 180);
+      }
+      else {
+        thisdoge.style.bottom = (location.bottom + 1) + 'px';
+      }
+    }
+    else if (location.side == 'top') {
+      if (location.left <= 0) {
+        doge.flip(thisdoge, 90);
+      }
+      else {
+        thisdoge.style.left = (location.left - 1) + 'px';
+      }
+    }
+    else if (location.side == 'left') {
+      if (location.bottom <= 0) {
+        doge.flip(thisdoge, 0);
+      }
+      else {
+        thisdoge.style.bottom = (location.bottom - 1) + 'px';
+      }
     }
 
     setTimeout(
       function() {
-        doge.run(direction);
-      },1);
+        if (--distance < 0) {
+          doge.plz(thisdoge);
+        }
+        else {
+          doge.run(thisdoge, distance);
+        }
+      }, 1);
 
-  }
+  };
 
   return doge;
 }());
