@@ -17,8 +17,8 @@ LIBDOGE = (function() {
 
   var divs = [];
 
-  var randomAtRange = function(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  doge.wagTail = function(min, max) {
+   return Math.floor(Math.random() * (max - min + 1)) + min; 
   }
 
   doge.chew = function(text) {
@@ -37,7 +37,7 @@ LIBDOGE = (function() {
     }
 
     for (i in words) {
-      if (words[i].length < 2 || words[i].length > 20) {
+      if (words[i].length <= 2 || words[i].length > 20) {
         continue;
       }
 
@@ -86,15 +86,15 @@ LIBDOGE = (function() {
 
   doge.tearContent = function() {
     var content = document.createElement('div');
-    // this magic doge now understand content separation better, so nice
+    // this magic, doge now understand good
     content.innerHTML = document.body.innerHTML.replace(/>/g, '> ');
 
-    var elementsToStash = ['script','style'];
+    var dump = ['script','style'];
 
-    for(i in elementsToStash) {
-      var to_stash = content.getElementsByTagName(elementsToStash[i]);
-      for (var i = (to_stash.length - 1);  i >= 0;  i--) {
-        to_stash[i].parentElement.removeChild(to_stash[i]);
+    for(i in dump) {
+      var dump_pile = content.getElementsByTagName(dump[i]);
+      for (var i = (dump_pile.length - 1);  i >= 0;  i--) {
+        dump_pile[i].parentElement.removeChild(dump_pile[i]);
       }      
     }
 
@@ -106,14 +106,26 @@ LIBDOGE = (function() {
 
   doge.bark = function() {
     var text = [];
-    text.push(prefixes[Math.floor(Math.random()*prefixes.length)]);
+    var selected_words = [];
+    selected_words.push((Math.random() < 0.5) ? content_words : meta_words);
 
-    var selected_words = (Math.random() < 0.33) ? content_words : meta_words;
+    if (Math.random() < 0.4) {
+      selected_words.push((Math.random() < 0.5) ? content_words : meta_words);
+    }
 
-    text.push(selected_words[Math.floor(Math.random()*selected_words.length)]);
+    text.push(prefixes[doge.wagTail(0, prefixes.length-1)]);
+
+    var beef = [];
+    for(i in selected_words) {
+      var seed = doge.wagTail(0, selected_words[i].length-1);
+      if (beef.indexOf(selected_words[i][seed]) == -1 ) {
+        beef.push(selected_words[i][seed]);
+      }
+    }
+    text.push(beef.join(' '));
 
     if (Math.random() <= 0.33) {
-      text.push(suffixes[Math.floor(Math.random()*suffixes.length)]);
+      text.push(suffixes[doge.wagTail(0, suffixes.length-1)]);
     }
 
     return text.join(' '); 
@@ -125,23 +137,21 @@ LIBDOGE = (function() {
     element.innerHTML = doge.bark();
 
     element.style.position = 'fixed';
-    element.style.top = 
-      Math.floor((Math.random() * window.innerHeight * 0.9)) + 'px';
-    element.style.left = 
-      Math.floor((Math.random() * window.innerWidth * 0.9)) + 'px';
+    element.style.top = doge.wagTail(0, (window.innerHeight*0.9)) + 'px';
+    element.style.left = doge.wagTail(0, (window.innerWidth*0.85)) + 'px';
     element.style.display = 'block';
     element.style.zIndex = 999999;
     element.style.opacity = 1;
     element.style.fontSize = '3em';
     element.style.textShadow = '-2px 0px 2px rgba(0, 0, 0, 1)';
     element.style.fontFamily = 'Comic Sans MS';
-    element.style.color = 'rgb(' + Math.floor(Math.random()*255) + ',' + 
-      Math.floor(Math.random()*255) + ',' + 
-      Math.floor(Math.random()*255) + ')';
+    element.style.color = 'rgb(' + doge.wagTail(0, 255) + ',' + 
+      doge.wagTail(0, 255) + ',' + 
+      doge.wagTail(0, 255) + ')';
 
     document.body.appendChild(element);
     
-    setTimeout(function() { doge.go(id,1); },Math.floor(Math.random()*750));
+    setTimeout(function() {doge.go(id,1);}, doge.wagTail(0, 750));
   };
 
   doge.go = function(id, k) {
@@ -202,7 +212,7 @@ LIBDOGE = (function() {
             doge.come(div_id);
           }
         })(div_id), 
-        Math.floor(Math.random()*2500));
+        doge.wagTail(0, 2500));
     }
   };
 
@@ -230,7 +240,7 @@ LIBDOGE = (function() {
 
   doge.teleport = function(thisdoge, is_hidden) {
     var sides = ['top', 'bottom', 'left', 'right'];
-    var side = sides[Math.floor(sides.length * Math.random())];
+    var side = sides[doge.wagTail(0, sides.length-1)];
     thisdoge.setAttribute('rel', side);
 
     if (is_hidden == null) {
@@ -242,23 +252,23 @@ LIBDOGE = (function() {
       var bottom = (is_hidden) ? 
         window.innerHeight : (window.innerHeight - thisdoge.clientHeight);
       thisdoge.style.bottom = bottom + 'px';
-      thisdoge.style.left = randomAtRange(0, window.innerWidth - thisdoge.clientWidth) + 'px';
+      thisdoge.style.left = doge.wagTail(0, window.innerWidth - thisdoge.clientWidth) + 'px';
     }
     else if (side == 'bottom') {
       doge.flip(thisdoge, 0);
       var bottom = (is_hidden) ? -thisdoge.clientHeight : 0;
       thisdoge.style.bottom = bottom + 'px';
-      thisdoge.style.left = randomAtRange(0, window.innerWidth - thisdoge.clientWidth) + 'px';
+      thisdoge.style.left = doge.wagTail(0, window.innerWidth - thisdoge.clientWidth) + 'px';
     }
     else if (side == 'left') {
       doge.flip(thisdoge, 90);
-      thisdoge.style.bottom = randomAtRange(0, window.innerHeight - thisdoge.clientWidth) + 'px';
+      thisdoge.style.bottom = doge.wagTail(0, window.innerHeight - thisdoge.clientWidth) + 'px';
       var left = (is_hidden) ? -thisdoge.clientHeight : 0;
       thisdoge.style.left = left + 'px';
     }
     else if (side == 'right') {
       doge.flip(thisdoge, 270);
-      thisdoge.style.bottom = randomAtRange(0, window.innerHeight - thisdoge.clientWidth) + 'px';
+      thisdoge.style.bottom = doge.wagTail(0, window.innerHeight - thisdoge.clientWidth) + 'px';
       var left = (is_hidden) ? window.innerWidth : (window.innerWidth - thisdoge.clientHeight);
       thisdoge.style.left = left + 'px';
     }
@@ -292,7 +302,7 @@ LIBDOGE = (function() {
       setTimeout(function() {
         doge.teleport(thisdoge, true);
         doge.ambush(thisdoge);
-      }, Math.random()*2500);
+      }, doge.wagTail(0, 2500));
     }
   };
 
@@ -323,17 +333,16 @@ LIBDOGE = (function() {
     else {
       setTimeout(function() {
         doge.plz(thisdoge);
-      }, Math.random()*2500);
+      }, doge.wagTail(0, 2500));
     }
 
   };
 
   doge.plz = function(thisdoge) {
     var location = locate(thisdoge);
-    var action = Math.random();
 
-    if (action < 0.5) {
-      var distance = randomAtRange(500, 1000);
+    if (Math.random() < 0.5) {
+      var distance = doge.wagTail(500, 1000);
 
       doge.run(thisdoge, distance);
     }
