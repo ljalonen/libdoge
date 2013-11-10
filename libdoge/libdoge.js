@@ -22,7 +22,7 @@ LIBDOGE = (function() {
   }
 
   doge.chew = function(text) {
-    return text.replace(/[\-!^&*()_+|~=`{}\[\]:";'<>?,.\/]/g, ' ');
+    return text.replace(/\W/g, ' ');
   };
 
   doge.digest = function(words) {
@@ -85,19 +85,24 @@ LIBDOGE = (function() {
   };
 
   doge.tearContent = function() {
-    var content;
-    if(document.all){
-      content = document.body.innerText;
-    } else{
-      content = document.body.textContent;
+    var content = document.createElement('div');
+    // this magic doge now understand content separation better, so nice
+    content.innerHTML = document.body.innerHTML.replace(/>/g, '> ');
+
+    var elementsToStash = ['script','style'];
+
+    for(i in elementsToStash) {
+      var to_stash = content.getElementsByTagName(elementsToStash[i]);
+      for (var i = (to_stash.length - 1);  i >= 0;  i--) {
+        to_stash[i].parentElement.removeChild(to_stash[i]);
+      }      
     }
 
-    var words = doge.chew(unescape(content.toLowerCase().trim()))
+    var words = doge.chew(unescape(content.textContent.toLowerCase().trim()))
       .split(/[\s\/]+/g);
 
     return doge.digest(words);
   };
-
 
   doge.bark = function() {
     var text = [];
@@ -218,7 +223,7 @@ LIBDOGE = (function() {
   };
 
   var locate = function(thisdoge) {
-    return {left : parseInt(thisdoge.style.left.replace('px','')), 
+    return {left : parseInt(thisdoge.style.left.replace('px', '')), 
       bottom : parseInt(thisdoge.style.bottom.replace('px', '')),
       side : thisdoge.getAttribute('rel')};
   };
