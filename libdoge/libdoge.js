@@ -19,38 +19,41 @@ LIBDOGE = (function() {
 
   doge.chew = function(text) {
     return text.replace(/[\-!^&*()_+|~=`{}\[\]:";'<>?,.\/]/g, ' ');
-  }
+  };
 
   doge.digest = function(words) {
-    var digested = words.filter(function(value, index, self) {
-      if (value.length < 2) {
-        return false;
+    var selected_words = {};
+
+    var stopList = stopWords;
+    for(i in prefixes) {
+      stopList[prefixes[i]] = true;
+    }
+    for(i in suffixes) {
+      stopList[suffixes[i]] = true;
+    }
+
+    for (i in words) {
+      if (words[i].length < 2 || words[i].length > 20) {
+        continue;
       }
 
-      if (value in stopWords) {
-        return false;
+      if (words[i] in stopList) {
+        continue;
       }
 
-      if (self.indexOf(value) !== index) {
-        return false;
+      if (words[i] in selected_words) {
+        selected_words[words[i]]++;
+        continue;
       }
 
-      if (prefixes.indexOf(value) != -1) {
-        return false;
+      if (parseInt(words[i]).toString() == words[i]) {
+        continue;
       }
 
-      if (suffixes.indexOf(value) != -1) {
-        return false;
-      }
+      selected_words[words[i]] = 1;
 
-      if (parseInt(value).toString() == value) {
-        return false;
-      }
-
-      return true;
-    });
-
-    return digested;
+    }
+    return Object.keys(selected_words);
   };
 
   doge.tearMeta = function(textPresets) {
@@ -68,7 +71,7 @@ LIBDOGE = (function() {
     }
 
     words = doge.chew(unescape(strings.join(' ').toLowerCase()))
-      .split(/[\s\/]+/g).sort();
+      .split(/[\s\/]+/g);
 
     if (textPresets != null) {
       words = words.concat(textPresets);
@@ -86,9 +89,9 @@ LIBDOGE = (function() {
     }
 
     var words = doge.chew(unescape(content.toLowerCase().trim()))
-      .split(/[\s\/]+/g).sort();
+      .split(/[\s\/]+/g);
 
-      return doge.digest(words);
+    return doge.digest(words);
   };
 
 
