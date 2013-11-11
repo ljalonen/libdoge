@@ -3,6 +3,8 @@ libdoge
 
 wow such good doge
 
+![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
+
 ## Usage
 ### Chrome
 Chrome Extension available at [Chrome Store][chromestore]
@@ -28,11 +30,8 @@ javascript:void ((function(){var a=document.createElement("script");a.setAttribu
 ```
 
 * Add to bookmarks toolbar
-* Click to dogify
+* Click to dogefy
 
-
-
-![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ljalonen/libdoge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
