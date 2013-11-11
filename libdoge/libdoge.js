@@ -133,26 +133,37 @@ LIBDOGE = (function() {
   };
 
   doge.come = function(id) {
-    var element = document.createElement('div');
-    element.setAttribute('id',id);
-    element.innerHTML = doge.bark();
+    var statement = document.createElement('div');
+    statement.style.display = 'inline-block';
+    statement.setAttribute('id', id);
+    statement.innerHTML = doge.bark();
+    document.body.appendChild(statement);
 
-    element.style.position = 'fixed';
-    element.style.top = doge.wagTail(0, (window.innerHeight*0.9)) + 'px';
-    element.style.left = doge.wagTail(0, (window.innerWidth*0.85)) + 'px';
-    element.style.display = 'block';
-    element.style.zIndex = 999999;
-    element.style.opacity = 1;
-    element.style.fontSize = '3em';
-    element.style.textShadow = '-2px 0px 2px rgba(0, 0, 0, 1)';
-    element.style.fontFamily = 'Comic Sans MS';
-    element.style.color = 'rgb(' + doge.wagTail(0, 255) + ',' + 
+    var widthBoundaries = {
+      left : Math.floor(0.075*window.innerWidth),
+      right : Math.floor((0.925*window.innerWidth) - statement.clientWidth)
+    };
+
+    var heightBoundaries = {
+      bottom : Math.floor(0.075*window.innerHeight),
+      top : Math.floor((0.925*window.innerHeight) - statement.clientHeight)
+    };
+
+    statement.style.position = 'fixed';
+    statement.style.bottom = doge.wagTail(heightBoundaries.bottom,
+      heightBoundaries.top) + 'px';
+    statement.style.left = doge.wagTail(widthBoundaries.left,
+      widthBoundaries.right) + 'px';
+    statement.style.zIndex = 999999;
+    statement.style.opacity = 1;
+    statement.style.fontSize = '2.75em';
+    statement.style.textShadow = '-2px 0px 2px rgba(0, 0, 0, 1)';
+    statement.style.fontFamily = 'Comic Sans MS';
+    statement.style.color = 'rgb(' + doge.wagTail(0, 255) + ',' +
       doge.wagTail(0, 255) + ',' + 
       doge.wagTail(0, 255) + ')';
 
-    document.body.appendChild(element);
-    
-    setTimeout(function() {doge.go(id,1);}, doge.wagTail(0, 750));
+    setTimeout(function() {doge.go(id,1);}, doge.wagTail(100, 800));
   };
 
   doge.go = function(id, k) {
