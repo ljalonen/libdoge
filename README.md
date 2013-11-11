@@ -26,7 +26,7 @@ OR
 * Set following text to URL
 
 ```javascript
-javascript:void ((function(){var a=document.createElement("script");a.setAttribute("src","https://raw.github.com/ljalonen/libdoge/master/libdoge/libdoge.min.js");document.body.appendChild(a);setInterval(function(){LIBDOGE.moar()},1500)})());
+javascript:void ((function(){if(typeof LIBDOGE!="undefined"){return}var b=document.createElement("script");b.setAttribute("src","https://raw.github.com/ljalonen/libdoge/master/libdoge/bookmarklet.min.js");document.body.appendChild(b)})());
 ```
 
 * Add to bookmarks toolbar

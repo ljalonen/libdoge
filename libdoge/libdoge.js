@@ -15,7 +15,7 @@ LIBDOGE = (function() {
 
   var doge_staring = false;
 
-  var divs = [];
+  var doge_says = [];
 
   doge.wagTail = function(min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min; 
@@ -65,11 +65,12 @@ LIBDOGE = (function() {
     var strings = [];
     strings.push(document.title.trim());
 
+    var treats = ['keywords','description','author'];
     var metadata = document.getElementsByTagName('meta');
+
     for (i in metadata) {
-      if (metadata[i].name == "keywords" || 
-        metadata[i].name == "description" || 
-        metadata[i].name == "author") {
+      if (treats.indexOf(metadata[i].name) != -1 && 
+        typeof metadata[i].content != 'undefined') {
         strings.push(metadata[i].content.trim());
       }
     }
@@ -161,8 +162,8 @@ LIBDOGE = (function() {
       setTimeout(function() { doge.go(id,k-0.1); },100);
     }
     else {
-      if (divs.indexOf(id) != -1) {
-        divs.splice(divs.indexOf(id), 1);  
+      if (doge_says.indexOf(id) != -1) {
+        doge_says.splice(doge_says.indexOf(id), 1);  
       }
 
       element.parentElement.removeChild(element);
@@ -184,7 +185,7 @@ LIBDOGE = (function() {
 
     document.body.appendChild(staring_doge);
 
-    doge.plz(document.getElementById('thedoge'));
+    doge.run(document.getElementById('thedoge'), doge.wagTail(500,1000));
   };
 
   doge.moar = function() {
@@ -200,18 +201,18 @@ LIBDOGE = (function() {
       content_words = doge.tearContent();
     }
 
-    while(divs.length < 7) {
-      var div_id = 'doge_' + id;
-      divs.push(div_id);
+    while(doge_says.length < 7) {
+      var say_id = 'doge_says_' + id;
+      doge_says.push(say_id);
 
       id++;
 
       setTimeout(
-        (function(div_id) {
+        (function(say_id) {
           return function() {
-            doge.come(div_id);
+            doge.come(say_id);
           }
-        })(div_id), 
+        })(say_id), 
         doge.wagTail(0, 2500));
     }
   };
@@ -335,7 +336,6 @@ LIBDOGE = (function() {
         doge.plz(thisdoge);
       }, doge.wagTail(0, 2500));
     }
-
   };
 
   doge.plz = function(thisdoge) {
@@ -401,7 +401,3 @@ LIBDOGE = (function() {
 
   return doge;
 }());
-
-setInterval(function() {
-  LIBDOGE.moar();
-}, 1500);
