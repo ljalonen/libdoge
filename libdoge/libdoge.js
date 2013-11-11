@@ -65,11 +65,12 @@ LIBDOGE = (function() {
     var strings = [];
     strings.push(document.title.trim());
 
+    var treats = ['keywords','description','author'];
     var metadata = document.getElementsByTagName('meta');
+
     for (i in metadata) {
-      if (metadata[i].name == "keywords" || 
-        metadata[i].name == "description" || 
-        metadata[i].name == "author") {
+      if (treats.indexOf(metadata[i].name) != -1 && 
+        typeof metadata[i].content != 'undefined') {
         strings.push(metadata[i].content.trim());
       }
     }
@@ -184,7 +185,7 @@ LIBDOGE = (function() {
 
     document.body.appendChild(staring_doge);
 
-    doge.plz(document.getElementById('thedoge'));
+    doge.run(document.getElementById('thedoge'), doge.wagTail(500,1000));
   };
 
   doge.moar = function() {
@@ -335,7 +336,6 @@ LIBDOGE = (function() {
         doge.plz(thisdoge);
       }, doge.wagTail(0, 2500));
     }
-
   };
 
   doge.plz = function(thisdoge) {
