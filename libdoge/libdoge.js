@@ -161,13 +161,11 @@ LIBDOGE.util = (function() {
 LIBDOGE.doges = (function() {
   var doges = {};
 
-  var next_doge_id = 1;
-
   var doge_list = [];
 
   doges.create = function() {
     var doge = document.createElement('img');
-    var doge_id = 'doge_' + (next_doge_id++);
+    var doge_id = 'doge_' + LIBDOGE.util.random(0,1000000000) + '_' + new Date().getTime();
 
     doge.setAttribute('id', doge_id);
     doge.setAttribute(
@@ -366,7 +364,6 @@ LIBDOGE.doges = (function() {
 LIBDOGE.statements = (function() {
   var statements = {};
 
-  var next_statement_id = 1;
   var statement_list = [];
   var max_statements = 7;
 
@@ -409,7 +406,7 @@ LIBDOGE.statements = (function() {
       return false;
     }
 
-    var statement_id = 'statement_' + (next_statement_id++);
+    var statement_id = 'statement_' + LIBDOGE.util.random(0,1000000000) + '_' + new Date().getTime();
     var statement = document.createElement('div');
     statement.style.display = 'inline-block';
     statement.setAttribute('id', statement_id);
@@ -471,9 +468,7 @@ LIBDOGE.controller = (function() {
 
   controller.buyDoge = function() {
     LIBDOGE.doges.create();
-    if (LIBDOGE.doges.list().length == 1) {
-      controller.askDoge();
-    }
+    controller.askDoge();
   };
 
   return controller;
