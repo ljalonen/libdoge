@@ -1,8 +1,13 @@
 if (typeof LIBDOGE == 'undefined') {
   var libdoge = document.createElement("script");
   libdoge.setAttribute("src",
-    "https://raw.github.com/ljalonen/libdoge/master/libdoge/libdoge-min.js");
-  document.body.appendChild(libdoge);
+    "https://github.com/ljalonen/libdoge/libdoge/libdoge-min.js");
+  libdoge.onload = function() {
+    LIBDOGE.controller.buyDoge();
+  }
 
-  setInterval(function(){LIBDOGE.moar()},1500);
+  document.body.appendChild(libdoge);
+}
+else {
+  LIBDOGE.controller.buyDoge();
 }

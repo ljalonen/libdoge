@@ -1,34 +1,73 @@
-LIBDOGE = (function() {
-  var doge = {};
+var LIBDOGE = (function(libdoge) {
+  return libdoge;
+}(LIBDOGE || {}));
 
-  var id = 1;
+LIBDOGE.util = (function() {
+  var util = {};
+
+  var contentStopWords = {'a' : true, 'able' : true, 'about' : true, 'across' : true, 'after' : true, 'all' : true, 'almost' : true, 'also' : true, 'am' : true, 'among' : true, 'an' : true, 'and' : true, 'any' : true, 'are' : true, 'as' : true, 'at' : true, 'be' : true, 'because' : true, 'been' : true, 'but' : true, 'by' : true, 'can' : true, 'cannot' : true, 'could' : true, 'dear' : true, 'did' : true, 'do' : true, 'does' : true, 'either' : true, 'else' : true, 'ever' : true, 'every' : true, 'for' : true, 'from' : true, 'get' : true, 'got' : true, 'had' : true, 'has' : true, 'have' : true, 'he' : true, 'her' : true, 'hers' : true, 'him' : true, 'his' : true, 'how' : true, 'however' : true, 'i' : true, 'if' : true, 'in' : true, 'into' : true, 'is' : true, 'it' : true, 'its' : true, 'just' : true, 'least' : true, 'let' : true, 'like' : true, 'likely' : true, 'may' : true, 'me' : true, 'might' : true, 'most' : true, 'must' : true, 'my' : true, 'neither' : true, 'no' : true, 'nor' : true, 'not' : true, 'of' : true, 'off' : true, 'often' : true, 'on' : true, 'only' : true, 'or' : true, 'other' : true, 'our' : true, 'own' : true, 'rather' : true, 'said' : true, 'say' : true, 'says' : true, 'she' : true, 'should' : true, 'since' : true, 'so' : true, 'some' : true, 'than' : true, 'that' : true, 'the' : true, 'their' : true, 'them' : true, 'then' : true, 'there' : true, 'these' : true, 'they' : true, 'this' : true, 'tis' : true, 'to' : true, 'too' : true, 'twas' : true, 'us' : true, 'wants' : true, 'was' : true, 'we' : true, 'were' : true, 'what' : true, 'when' : true, 'where' : true, 'which' : true, 'while' : true, 'who' : true, 'whom' : true, 'why' : true, 'will' : true, 'with' : true, 'would' : true, 'yet' : true, 'you' : true, 'your' : true};
+
   var prefixes = ['wow', 'so', 'such', 'so much', 'very', 'many', 'lots', 
     'most', 'beautiful', 'all the', 'the', 'very much', 'pretty', 'lol'];
 
   var suffixes = ['wow', 'plz', 'lol'];
-  var texts = ['doge'];
+  var presetWords = ['doge'];
 
-  var stopWords = {'a' : true, 'able' : true, 'about' : true, 'across' : true, 'after' : true, 'all' : true, 'almost' : true, 'also' : true, 'am' : true, 'among' : true, 'an' : true, 'and' : true, 'any' : true, 'are' : true, 'as' : true, 'at' : true, 'be' : true, 'because' : true, 'been' : true, 'but' : true, 'by' : true, 'can' : true, 'cannot' : true, 'could' : true, 'dear' : true, 'did' : true, 'do' : true, 'does' : true, 'either' : true, 'else' : true, 'ever' : true, 'every' : true, 'for' : true, 'from' : true, 'get' : true, 'got' : true, 'had' : true, 'has' : true, 'have' : true, 'he' : true, 'her' : true, 'hers' : true, 'him' : true, 'his' : true, 'how' : true, 'however' : true, 'i' : true, 'if' : true, 'in' : true, 'into' : true, 'is' : true, 'it' : true, 'its' : true, 'just' : true, 'least' : true, 'let' : true, 'like' : true, 'likely' : true, 'may' : true, 'me' : true, 'might' : true, 'most' : true, 'must' : true, 'my' : true, 'neither' : true, 'no' : true, 'nor' : true, 'not' : true, 'of' : true, 'off' : true, 'often' : true, 'on' : true, 'only' : true, 'or' : true, 'other' : true, 'our' : true, 'own' : true, 'rather' : true, 'said' : true, 'say' : true, 'says' : true, 'she' : true, 'should' : true, 'since' : true, 'so' : true, 'some' : true, 'than' : true, 'that' : true, 'the' : true, 'their' : true, 'them' : true, 'then' : true, 'there' : true, 'these' : true, 'they' : true, 'this' : true, 'tis' : true, 'to' : true, 'too' : true, 'twas' : true, 'us' : true, 'wants' : true, 'was' : true, 'we' : true, 'were' : true, 'what' : true, 'when' : true, 'where' : true, 'which' : true, 'while' : true, 'who' : true, 'whom' : true, 'why' : true, 'will' : true, 'with' : true, 'would' : true, 'yet' : true, 'you' : true, 'your' : true};
+  var dictionary = {meta : null, contetn: null};
 
-  var meta_words = null;
-  var content_words = null;
-
-  var doge_staring = false;
-
-  var doge_says = [];
-
-  doge.wagTail = function(min, max) {
-   return Math.floor(Math.random() * (max - min + 1)) + min; 
-  }
-
-  doge.chew = function(text) {
-    return text.replace(/\W/g, ' ');
+  util.random = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  doge.digest = function(words) {
+  var readMeta = function() {
+    var words;
+    var strings = [];
+    strings.push(document.title.trim());
+
+    var intrests = ['keywords','description','author'];
+    var metadata = document.getElementsByTagName('meta');
+
+    for (i in metadata) {
+      if (intrests.indexOf(metadata[i].name) != -1 && 
+        typeof metadata[i].content != 'undefined') {
+        strings.push(metadata[i].content.trim());
+      }
+    }
+
+    words = unescape(strings.join(' ').toLowerCase())
+      .replace(/\W/g, ' ')
+      .split(/[\s\/]+/g);
+
+    words = words.concat(presetWords);
+
+    return filterWords(words);
+  };
+
+  var readContent = function() {
+    var content = document.createElement('div');
+    // this magic, doge now understand good
+    content.innerHTML = document.body.innerHTML.replace(/>/g, '> ');
+
+    var dump = ['script','style'];
+
+    for(i in dump) {
+      var dump_pile = content.getElementsByTagName(dump[i]);
+      for (var i = (dump_pile.length - 1);  i >= 0;  i--) {
+        dump_pile[i].parentElement.removeChild(dump_pile[i]);
+      }      
+    }
+
+    var words = unescape(content.textContent.toLowerCase().trim())
+      .replace(/\W/g, ' ')
+      .split(/[\s\/]+/g);
+
+    return filterWords(words);
+  };
+
+  var filterWords = function(words) {
     var selected_words = {};
 
-    var stopList = stopWords;
+    var stopList = contentStopWords;
     for(i in prefixes) {
       stopList[prefixes[i]] = true;
     }
@@ -60,83 +99,323 @@ LIBDOGE = (function() {
     return Object.keys(selected_words);
   };
 
-  doge.tearMeta = function(textPresets) {
-    var words;
-    var strings = [];
-    strings.push(document.title.trim());
+  util.loadDictionary = function() {
+    dictionary = {
+      meta : readMeta(),
+      content : readContent()
+    };
+  };  
 
-    var treats = ['keywords','description','author'];
-    var metadata = document.getElementsByTagName('meta');
-
-    for (i in metadata) {
-      if (treats.indexOf(metadata[i].name) != -1 && 
-        typeof metadata[i].content != 'undefined') {
-        strings.push(metadata[i].content.trim());
-      }
-    }
-
-    words = doge.chew(unescape(strings.join(' ').toLowerCase()))
-      .split(/[\s\/]+/g);
-
-    if (textPresets != null) {
-      words = words.concat(textPresets);
-    }
-
-    return doge.digest(words);
+  util.getTextPrefixes = function() {
+    return prefixes;
   };
 
-  doge.tearContent = function() {
-    var content = document.createElement('div');
-    // this magic, doge now understand good
-    content.innerHTML = document.body.innerHTML.replace(/>/g, '> ');
+  util.getTextSuffixes = function() {
+    return suffixes;
+  };
 
-    var dump = ['script','style'];
+  util.getDictionary = function() {
+    return dictionary;
+  };
 
-    for(i in dump) {
-      var dump_pile = content.getElementsByTagName(dump[i]);
-      for (var i = (dump_pile.length - 1);  i >= 0;  i--) {
-        dump_pile[i].parentElement.removeChild(dump_pile[i]);
+  util.fadeOut = function(id, opacity) {
+    var element = document.getElementById(id);
+    element.style.opacity = opacity;
+    if (opacity > 0) {
+      setTimeout(function() { util.fadeOut(id, opacity-0.1); },100);
+    }
+    else {
+      element.parentElement.removeChild(element);
+    }
+  };
+
+  util.flipElement = function(id, rotation) {
+    var element = document.getElementById(id);
+    var properties = ['transform', 'WebkitTransform', 'msTransform',
+      'MozTransform', 'OTransform'];
+
+    var sides = {0 : 'bottom', 270 : 'right', 180 : 'top', 90 : 'left'};
+    element.setAttribute('rel', sides[rotation]);
+
+    for(i in properties) {
+      element.style[properties[i]] = 'rotate(' + rotation + 'deg)';
+    }
+  };
+
+  util.locate = function(id) {
+    var element = document.getElementById(id);
+    return {left : parseInt(element.style.left.replace('px', '')), 
+      bottom : parseInt(element.style.bottom.replace('px', '')),
+      side : element.getAttribute('rel')};
+  };
+
+  util.calculateTrajectory = function(start, end) {
+    throw "Not implemented";
+  };
+
+  util.loadDictionary();
+
+  return util;
+}());
+
+LIBDOGE.doges = (function() {
+  var doges = {};
+
+  var next_doge_id = 1;
+
+  var doge_list = [];
+
+  doges.create = function() {
+    var doge = document.createElement('img');
+    var doge_id = 'doge_' + (next_doge_id++);
+
+    doge.setAttribute('id', doge_id);
+    doge.setAttribute(
+      'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
+    doge.setAttribute('rel', 'bottom');
+    doge.style.position = 'fixed';
+  
+    doge.style.left = '0px';
+    doge.style.bottom = '0px';
+    doge.style.zIndex = 999999;
+
+    doge_list.push(doge_id);
+
+    document.body.appendChild(doge);
+
+    doges.run(doge_id, LIBDOGE.util.random(500,1000));
+  };
+
+  doges.suspend = function(doge_id) {
+    throw "Not implemented";
+  };
+
+  /* ACTIONS */
+  doges.run = function(doge_id, distance) {
+    var doge = document.getElementById(doge_id);
+    var location = LIBDOGE.util.locate(doge_id);
+
+    if (location.side == 'bottom') {
+      if (location.left + doge.clientWidth >= window.innerWidth) {
+        LIBDOGE.util.flipElement(doge_id, 270);
+      }
+      else {
+        doge.style.left = (location.left + 1) + 'px';  
       }      
     }
-
-    var words = doge.chew(unescape(content.textContent.toLowerCase().trim()))
-      .split(/[\s\/]+/g);
-
-    return doge.digest(words);
-  };
-
-  doge.bark = function() {
-    var text = [];
-    var selected_words = [];
-    selected_words.push((Math.random() < 0.5) ? content_words : meta_words);
-
-    if (Math.random() < 0.4) {
-      selected_words.push((Math.random() < 0.5) ? content_words : meta_words);
-    }
-
-    text.push(prefixes[doge.wagTail(0, prefixes.length-1)]);
-
-    var beef = [];
-    for(i in selected_words) {
-      var seed = doge.wagTail(0, selected_words[i].length-1);
-      if (beef.indexOf(selected_words[i][seed]) == -1 ) {
-        beef.push(selected_words[i][seed]);
+    else if (location.side == 'right') {
+      if (location.bottom + doge.clientWidth >= window.innerHeight) {
+        LIBDOGE.util.flipElement(doge_id, 180);
+      }
+      else {
+        doge.style.bottom = (location.bottom + 1) + 'px';
       }
     }
-    text.push(beef.join(' '));
+    else if (location.side == 'top') {
+      if (location.left <= 0) {
+        LIBDOGE.util.flipElement(doge_id, 90);
+      }
+      else {
+        doge.style.left = (location.left - 1) + 'px';
+      }
+    }
+    else if (location.side == 'left') {
+      if (location.bottom <= 0) {
+        LIBDOGE.util.flipElement(doge_id, 0);
+      }
+      else {
+        doge.style.bottom = (location.bottom - 1) + 'px';
+      }
+    }
+
+    setTimeout(
+      function() {
+        if (--distance < 0) {
+          doges.plz(doge_id);
+        }
+        else {
+          doges.run(doge_id, distance);
+        }
+      }, 1);
+  };
+
+  doges.teleport = function(doge_id, is_hidden) {
+    var doge = document.getElementById(doge_id);
+
+    var sides = ['top', 'bottom', 'left', 'right'];
+    var side = sides[LIBDOGE.util.random(0, sides.length-1)];
+    doge.setAttribute('rel', side);
+
+    if (is_hidden == null) {
+      is_hidden = false;
+    }
+
+    if (side == 'top') {
+      LIBDOGE.util.flipElement(doge_id, 180);
+      var bottom = (is_hidden) ? 
+        window.innerHeight : (window.innerHeight - doge.clientHeight);
+      doge.style.bottom = bottom + 'px';
+      doge.style.left = LIBDOGE.util.random(0, window.innerWidth - doge.clientWidth) + 'px';
+    }
+    else if (side == 'bottom') {
+      LIBDOGE.util.flipElement(doge_id, 0);
+      var bottom = (is_hidden) ? -doge.clientHeight : 0;
+      doge.style.bottom = bottom + 'px';
+      doge.style.left = LIBDOGE.util.random(0, window.innerWidth - doge.clientWidth) + 'px';
+    }
+    else if (side == 'left') {
+      LIBDOGE.util.flipElement(doge_id, 90);
+      doge.style.bottom = LIBDOGE.util.random(0, window.innerHeight - doge.clientWidth) + 'px';
+      var left = (is_hidden) ? -doge.clientHeight : 0;
+      doge.style.left = left + 'px';
+    }
+    else if (side == 'right') {
+      LIBDOGE.util.flipElement(doge_id, 270);
+      doge.style.bottom = LIBDOGE.util.random(0, window.innerHeight - doge.clientWidth) + 'px';
+      var left = (is_hidden) ? window.innerWidth : (window.innerWidth - doge.clientHeight);
+      doge.style.left = left + 'px';
+    }
+  };
+
+  doges.ambush = function(doge_id) {
+    var doge = document.getElementById(doge_id);
+    var location = LIBDOGE.util.locate(doge_id);
+    var doge_visible = false;
+
+    if (location.side == 'bottom') {
+      doge.style.bottom = (location.bottom + 1) + 'px';
+      doge_visible = ((location.bottom + 1) == 0);
+    }
+    else if (location.side == 'right') {
+      doge.style.left = (location.left - 1) + 'px';
+      doge_visible = ((location.left - 1) == window.innerWidth - doge.clientHeight);
+    }
+    else if (location.side == 'top') {
+      doge.style.bottom = (location.bottom - 1) + 'px';
+      doge_visible = ((location.bottom - 1) == window.innerHeight - doge.clientHeight);
+    }
+    else if (location.side == 'left') {
+      doge.style.left = (location.left + 1) + 'px';
+      doge_visible = ((location.left + 1) == 0);
+    }
+
+    if (!doge_visible) {
+      setTimeout(function() {doges.ambush(doge_id)}, 1);
+    }
+    else {
+      setTimeout(function() {
+        doges.plz(doge_id);
+      }, LIBDOGE.util.random(0, 2500));
+    }
+  };
+
+  doges.hide = function(doge_id) {
+    var location = LIBDOGE.util.locate(doge_id);
+    var doge = document.getElementById(doge_id);
+    var doge_hidden = false;
+
+    if (location.side == 'bottom') {
+      doge.style.bottom = (location.bottom - 1) + 'px';
+      doge_hidden = ((location.bottom - 1) == -doge.clientHeight);
+    }
+    else if (location.side == 'right') {
+      doge.style.left = (location.left + 1) + 'px';
+      doge_hidden = ((location.left + 1) == window.innerWidth);
+    }
+    else if (location.side == 'top') {
+      doge.style.bottom = (location.bottom + 1) + 'px';
+      doge_hidden = ((location.bottom + 1) == window.innerHeight);
+    }
+    else if (location.side == 'left') {
+      doge.style.left = (location.left - 1) + 'px';
+      doge_hidden = ((location.left - 1) == -doge.clientHeight);
+    }
+
+    if (!doge_hidden) {
+      setTimeout(function() {doges.hide(doge_id)}, 1);
+    }
+    else {
+      setTimeout(function() {
+        doges.teleport(doge_id, true);
+        doges.ambush(doge_id);
+      }, LIBDOGE.util.random(0, 2500));
+    }
+  };
+
+  doges.plz = function(doge_id) {
+    var doge = document.getElementById(doge_id);
+    var location = LIBDOGE.util.locate(doge_id);
+
+    if (Math.random() < 0.5) {
+      var distance = LIBDOGE.util.random(500, 1000);
+
+      doges.run(doge_id, distance);
+    }
+    else {
+      doges.hide(doge_id);
+    }
+  };
+
+  doges.list = function() {
+    return doge_list;
+  };
+
+  return doges;
+}());
+
+LIBDOGE.statements = (function() {
+  var statements = {};
+
+  var next_statement_id = 1;
+  var statement_list = [];
+  var max_statements = 7;
+
+  var prefixes = LIBDOGE.util.getTextPrefixes();
+  var suffixes = LIBDOGE.util.getTextSuffixes();
+
+  var state = function() {
+    var text = [];
+    var selected_dictionaries = [];
+    selected_dictionaries.push((Math.random() < 0.5) ? 
+      LIBDOGE.util.getDictionary().content :
+      LIBDOGE.util.getDictionary().meta);
+
+    if (Math.random() < 0.4) {
+      selected_dictionaries.push((Math.random() < 0.5) ? 
+        LIBDOGE.util.getDictionary().content :
+        LIBDOGE.util.getDictionary().meta);
+    }
+
+    text.push(prefixes[LIBDOGE.util.random(0, prefixes.length-1)]);
+
+    var content = [];
+    for(i in selected_dictionaries) {
+      var word = LIBDOGE.util.random(0, selected_dictionaries[i].length-1);
+      if (content.indexOf(selected_dictionaries[i][word]) == -1 ) {
+        content.push(selected_dictionaries[i][word]);
+      }
+    }
+    text.push(content.join(' '));
 
     if (Math.random() <= 0.33) {
-      text.push(suffixes[doge.wagTail(0, suffixes.length-1)]);
+      text.push(suffixes[LIBDOGE.util.random(0, suffixes.length-1)]);
     }
 
     return text.join(' '); 
   };
 
-  doge.come = function(id) {
+  statements.create = function() {
+    if (statement_list.length >= max_statements) {
+      return false;
+    }
+
+    var statement_id = 'statement_' + (next_statement_id++);
     var statement = document.createElement('div');
     statement.style.display = 'inline-block';
-    statement.setAttribute('id', id);
-    statement.innerHTML = doge.bark();
+    statement.setAttribute('id', statement_id);
+    statement.innerHTML = state();
+
+    statement_list.push(statement_id);
     document.body.appendChild(statement);
 
     var widthBoundaries = {
@@ -150,265 +429,52 @@ LIBDOGE = (function() {
     };
 
     statement.style.position = 'fixed';
-    statement.style.bottom = doge.wagTail(heightBoundaries.bottom,
+    statement.style.bottom = LIBDOGE.util.random(heightBoundaries.bottom,
       heightBoundaries.top) + 'px';
-    statement.style.left = doge.wagTail(widthBoundaries.left,
+    statement.style.left = LIBDOGE.util.random(widthBoundaries.left,
       widthBoundaries.right) + 'px';
     statement.style.zIndex = 999999;
     statement.style.opacity = 1;
     statement.style.fontSize = '2.75em';
     statement.style.textShadow = '-2px 0px 2px rgba(0, 0, 0, 1)';
     statement.style.fontFamily = 'Comic Sans MS';
-    statement.style.color = 'rgb(' + doge.wagTail(0, 255) + ',' +
-      doge.wagTail(0, 255) + ',' + 
-      doge.wagTail(0, 255) + ')';
+    statement.style.color = 'rgb(' + 
+      LIBDOGE.util.random(0, 255) + ',' +
+      LIBDOGE.util.random(0, 255) + ',' + 
+      LIBDOGE.util.random(0, 255) + ')';
 
-    setTimeout(function() {doge.go(id,1);}, doge.wagTail(100, 800));
-  };
-
-  doge.go = function(id, k) {
-    var element = document.getElementById(id);
-    element.style.opacity = k;
-    if (k > 0) {
-      setTimeout(function() { doge.go(id,k-0.1); },100);
-    }
-    else {
-      if (doge_says.indexOf(id) != -1) {
-        doge_says.splice(doge_says.indexOf(id), 1);  
-      }
-
-      element.parentElement.removeChild(element);
-    }
-  };
-
-  doge.stare = function() {
-    var staring_doge = document.createElement('img');
-    staring_doge.setAttribute('id', 'thedoge');
-    staring_doge.setAttribute(
-      'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
-    staring_doge.setAttribute('rel', 'bottom');
-    staring_doge.style.position = 'fixed';
-    staring_doge.style.left = '0px';
-    staring_doge.style.bottom = '0px';
-    staring_doge.style.zIndex = 999999;
-
-    doge_staring = true;
-
-    document.body.appendChild(staring_doge);
-
-    doge.run(document.getElementById('thedoge'), doge.wagTail(500,1000));
-  };
-
-  doge.moar = function() {
-    if (!doge_staring) {
-      doge.stare();
-    }
-
-    if (meta_words == null) {
-      meta_words = doge.tearMeta(texts);
-    }
-
-    if (content_words == null) {
-      content_words = doge.tearContent();
-    }
-
-    while(doge_says.length < 7) {
-      var say_id = 'doge_says_' + id;
-      doge_says.push(say_id);
-
-      id++;
-
-      setTimeout(
-        (function(say_id) {
-          return function() {
-            doge.come(say_id);
-          }
-        })(say_id), 
-        doge.wagTail(0, 2500));
-    }
-  };
-
-  doge.puke = function() {
-    return {meta_words : meta_words, content_words : content_words};
-  };
-
-  doge.flip = function(thisdoge, rotation) {
-    var properties = ['transform', 'WebkitTransform', 'msTransform',
-      'MozTransform', 'OTransform'];
-
-    var sides = {0 : 'bottom', 270 : 'right', 180 : 'top', 90 : 'left'};
-    thisdoge.setAttribute('rel', sides[rotation]);
-
-    for(i in properties) {
-      thisdoge.style[properties[i]] = 'rotate(' + rotation + 'deg)';
-    }
-  };
-
-  var locate = function(thisdoge) {
-    return {left : parseInt(thisdoge.style.left.replace('px', '')), 
-      bottom : parseInt(thisdoge.style.bottom.replace('px', '')),
-      side : thisdoge.getAttribute('rel')};
-  };
-
-  doge.teleport = function(thisdoge, is_hidden) {
-    var sides = ['top', 'bottom', 'left', 'right'];
-    var side = sides[doge.wagTail(0, sides.length-1)];
-    thisdoge.setAttribute('rel', side);
-
-    if (is_hidden == null) {
-      is_hidden = false;
-    }
-
-    if (side == 'top') {
-      doge.flip(thisdoge, 180);
-      var bottom = (is_hidden) ? 
-        window.innerHeight : (window.innerHeight - thisdoge.clientHeight);
-      thisdoge.style.bottom = bottom + 'px';
-      thisdoge.style.left = doge.wagTail(0, window.innerWidth - thisdoge.clientWidth) + 'px';
-    }
-    else if (side == 'bottom') {
-      doge.flip(thisdoge, 0);
-      var bottom = (is_hidden) ? -thisdoge.clientHeight : 0;
-      thisdoge.style.bottom = bottom + 'px';
-      thisdoge.style.left = doge.wagTail(0, window.innerWidth - thisdoge.clientWidth) + 'px';
-    }
-    else if (side == 'left') {
-      doge.flip(thisdoge, 90);
-      thisdoge.style.bottom = doge.wagTail(0, window.innerHeight - thisdoge.clientWidth) + 'px';
-      var left = (is_hidden) ? -thisdoge.clientHeight : 0;
-      thisdoge.style.left = left + 'px';
-    }
-    else if (side == 'right') {
-      doge.flip(thisdoge, 270);
-      thisdoge.style.bottom = doge.wagTail(0, window.innerHeight - thisdoge.clientWidth) + 'px';
-      var left = (is_hidden) ? window.innerWidth : (window.innerWidth - thisdoge.clientHeight);
-      thisdoge.style.left = left + 'px';
-    }
-  };
-
-  doge.hide = function(thisdoge) {
-    var location = locate(thisdoge);
-    var doge_hidden = false;
-
-    if (location.side == 'bottom') {
-      thisdoge.style.bottom = (location.bottom - 1) + 'px';
-      doge_hidden = ((location.bottom - 1) == -thisdoge.clientHeight);
-    }
-    else if (location.side == 'right') {
-      thisdoge.style.left = (location.left + 1) + 'px';
-      doge_hidden = ((location.left + 1) == window.innerWidth);
-    }
-    else if (location.side == 'top') {
-      thisdoge.style.bottom = (location.bottom + 1) + 'px';
-      doge_hidden = ((location.bottom + 1) == window.innerHeight);
-    }
-    else if (location.side == 'left') {
-      thisdoge.style.left = (location.left - 1) + 'px';
-      doge_hidden = ((location.left - 1) == -thisdoge.clientHeight);
-    }
-
-    if (!doge_hidden) {
-      setTimeout(function() {doge.hide(thisdoge)}, 1);
-    }
-    else {
-      setTimeout(function() {
-        doge.teleport(thisdoge, true);
-        doge.ambush(thisdoge);
-      }, doge.wagTail(0, 2500));
-    }
-  };
-
-  doge.ambush = function(thisdoge) {
-    var location = locate(thisdoge);
-    var doge_visible = false;
-
-    if (location.side == 'bottom') {
-      thisdoge.style.bottom = (location.bottom + 1) + 'px';
-      doge_visible = ((location.bottom + 1) == 0);
-    }
-    else if (location.side == 'right') {
-      thisdoge.style.left = (location.left - 1) + 'px';
-      doge_visible = ((location.left - 1) == window.innerWidth - thisdoge.clientHeight);
-    }
-    else if (location.side == 'top') {
-      thisdoge.style.bottom = (location.bottom - 1) + 'px';
-      doge_visible = ((location.bottom - 1) == window.innerHeight - thisdoge.clientHeight);
-    }
-    else if (location.side == 'left') {
-      thisdoge.style.left = (location.left + 1) + 'px';
-      doge_visible = ((location.left + 1) == 0);
-    }
-
-    if (!doge_visible) {
-      setTimeout(function() {doge.ambush(thisdoge)}, 1);
-    }
-    else {
-      setTimeout(function() {
-        doge.plz(thisdoge);
-      }, doge.wagTail(0, 2500));
-    }
-  };
-
-  doge.plz = function(thisdoge) {
-    var location = locate(thisdoge);
-
-    if (Math.random() < 0.5) {
-      var distance = doge.wagTail(500, 1000);
-
-      doge.run(thisdoge, distance);
-    }
-    else {
-      doge.hide(thisdoge);
-    }
-  };
-
-  doge.run = function(thisdoge, distance) {
-    var location = locate(thisdoge);
-
-    if (location.side == 'bottom') {
-      if (location.left + thisdoge.clientWidth >= window.innerWidth) {
-        doge.flip(thisdoge, 270);
-      }
-      else {
-        thisdoge.style.left = (location.left + 1) + 'px';  
-      }      
-    }
-    else if (location.side == 'right') {
-      if (location.bottom + thisdoge.clientWidth >= window.innerHeight) {
-        doge.flip(thisdoge, 180);
-      }
-      else {
-        thisdoge.style.bottom = (location.bottom + 1) + 'px';
-      }
-    }
-    else if (location.side == 'top') {
-      if (location.left <= 0) {
-        doge.flip(thisdoge, 90);
-      }
-      else {
-        thisdoge.style.left = (location.left - 1) + 'px';
-      }
-    }
-    else if (location.side == 'left') {
-      if (location.bottom <= 0) {
-        doge.flip(thisdoge, 0);
-      }
-      else {
-        thisdoge.style.bottom = (location.bottom - 1) + 'px';
-      }
-    }
-
+    var fadeOutIn = LIBDOGE.util.random(100, 800);
     setTimeout(
       function() {
-        if (--distance < 0) {
-          doge.plz(thisdoge);
-        }
-        else {
-          doge.run(thisdoge, distance);
-        }
-      }, 1);
-
+        LIBDOGE.util.fadeOut(statement_id, 1);
+        setTimeout(function() {
+          statement_list.splice(statement_list.indexOf(statement_id), 1);
+        }, fadeOutIn);
+      },
+      fadeOutIn);
   };
 
-  return doge;
+  return statements;
+}());
+
+
+LIBDOGE.controller = (function() {
+  var controller = {};
+
+  controller.askDoge = function() {
+    setInterval(
+      function() {
+        LIBDOGE.statements.create();
+      },
+      300);
+  };
+
+  controller.buyDoge = function() {
+    LIBDOGE.doges.create();
+    if (LIBDOGE.doges.list().length == 1) {
+      controller.askDoge();
+    }
+  };
+
+  return controller;
 }());

@@ -29,7 +29,7 @@ OR
 * Set following text to URL
 
 ```javascript
-javascript:void ((function(){if(typeof LIBDOGE!="undefined"){return}var b=document.createElement("script");b.setAttribute("src","https://raw.github.com/ljalonen/libdoge/master/libdoge/bookmarklet.min.js");document.body.appendChild(b)})());
+javascript:void ((function(){var b=document.createElement("script");b.setAttribute("src","https://raw.github.com/ljalonen/libdoge/master/libdoge/bookmarklet-min.js");document.body.appendChild(b)})());
 ```
 
 * Add to bookmarks toolbar
