@@ -1,13 +1,13 @@
-if (typeof LIBDOGE == 'undefined') {
+if (typeof(doge) === 'undefined') {
   var libdoge = document.createElement("script");
   libdoge.setAttribute("src",
     "https://raw.github.com/ljalonen/libdoge/master/libdoge/libdoge-min.js");
   libdoge.onload = function() {
-    LIBDOGE.controller.buyDoge();
+    controller.buyDoge();
   }
 
   document.body.appendChild(libdoge);
 }
 else {
-  LIBDOGE.controller.buyDoge();
+  controller.buyDoge();
 }
