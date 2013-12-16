@@ -7,7 +7,7 @@ var util = (function() {
 
   u.locate = function(id) {
     var element = document.getElementById(id);
-    return {left : parseInt(element.style.left.replace('px', '')), 
+    return {left : parseInt(element.style.left.replace('px', '')),
       bottom : parseInt(element.style.bottom.replace('px', '')),
       side : element.getAttribute('rel')};
   };

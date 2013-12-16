@@ -5,9 +5,10 @@ var controller = (function() {
 
   c.buyDoge = function() {
     var d = new doge(name++);
-    d.plz();
+    var distance = util.random(500, 1000);
+    d.run(distance);
     doges.push(d);
-  }
+  };
 
   c.sellDoge = function() {
     if (doges.length == 0) {
@@ -19,6 +20,10 @@ var controller = (function() {
     // Y U NO SELL DOGE
     doge.escape();
     delete doge;
+  };
+
+  c.getDoges = function() {
+    return doges;
   }
 
   return c;

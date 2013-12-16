@@ -5,6 +5,11 @@ var doge = function(name) {
   var max_statements = 6;
   var statementNmbr = 1;
   var statements = [];
+  var doge_direction;
+  var doge_directions = {
+    'right' : 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png',
+    'left' : 'https://raw.github.com/ljalonen/libdoge/master/img/doge_r.png'
+  };
 
   // constructor like function
   (function() {
@@ -13,8 +18,13 @@ var doge = function(name) {
     figure = document.createElement('img');
 
     figure.setAttribute('id', id);
+
+    var possible_directions = ['left', 'right'];
+    doge_direction =
+      possible_directions[util.random(0, possible_directions.length-1)];
+
     figure.setAttribute(
-      'src', 'https://raw.github.com/ljalonen/libdoge/master/img/doge.png');
+      'src', doge_directions[doge_direction]);
     figure.setAttribute('rel', 'bottom');
     figure.style.position = 'fixed';
   
@@ -86,7 +96,7 @@ var doge = function(name) {
       util.random(0, 255) + ',' + 
       util.random(0, 255) + ')';
 
-    var fadeOutIn = util.random(100, 800);
+    var fadeOutIn = util.random(300, 1000);
     setTimeout(
       function() {
         animation.fadeOut(statement_id, 1);
@@ -98,6 +108,10 @@ var doge = function(name) {
   };
 
   d.plz = function() {
+    if (Math.random() < 0.33) {
+      d.turnAround();
+    }
+
     if (Math.random() < 0.5) {
       var distance = util.random(500, 1000);
       d.run(distance);
@@ -105,39 +119,16 @@ var doge = function(name) {
     else {
       d.hide();
     }
-
   };
 
   d.hide = function() {
-    var location = d.getLocation();
-    var doge_hidden = false;
-
-    if (location.side == 'bottom') {
-      figure.style.bottom = (location.bottom - 1) + 'px';
-      doge_hidden = ((location.bottom - 1) == -figure.clientHeight);
-    }
-    else if (location.side == 'right') {
-      figure.style.left = (location.left + 1) + 'px';
-      doge_hidden = ((location.left + 1) == window.innerWidth);
-    }
-    else if (location.side == 'top') {
-      figure.style.bottom = (location.bottom + 1) + 'px';
-      doge_hidden = ((location.bottom + 1) == window.innerHeight);
-    }
-    else if (location.side == 'left') {
-      figure.style.left = (location.left - 1) + 'px';
-      doge_hidden = ((location.left - 1) == -figure.clientHeight);
-    }
-
-    if (!doge_hidden) {
-      setTimeout(function() {d.hide()}, 1);
-    }
-    else {
+    var callback = function() {
       setTimeout(function() {
         d.teleport(true);
         d.ambush();
       }, util.random(0, 2500));
-    }
+    };
+    animation.hide(this, callback);
   };
 
   d.teleport = function(is_hidden) {
@@ -177,86 +168,36 @@ var doge = function(name) {
   };
 
   d.ambush = function() {
-    var location = d.getLocation();
-    var doge_visible = false;
-
-    if (location.side == 'bottom') {
-      figure.style.bottom = (location.bottom + 1) + 'px';
-      doge_visible = ((location.bottom + 1) == 0);
-    }
-    else if (location.side == 'right') {
-      figure.style.left = (location.left - 1) + 'px';
-      doge_visible = ((location.left - 1) == window.innerWidth - figure.clientHeight);
-    }
-    else if (location.side == 'top') {
-      figure.style.bottom = (location.bottom - 1) + 'px';
-      doge_visible = ((location.bottom - 1) == window.innerHeight - figure.clientHeight);
-    }
-    else if (location.side == 'left') {
-      figure.style.left = (location.left + 1) + 'px';
-      doge_visible = ((location.left + 1) == 0);
-    }
-
-    if (!doge_visible) {
-      setTimeout(function() {d.ambush()}, 1);
-    }
-    else {
+    var callback = function() {
       setTimeout(function() {
         d.plz();
       }, util.random(0, 2500));
-    }
+    };
+    animation.ambush(this, callback);
   };
 
   d.run = function(distance) {
-    var location = d.getLocation();
-
-    if (location.side == 'bottom') {
-      if (location.left + figure.clientWidth >= window.innerWidth) {
-        util.flipElement(figure, 270);
-      }
-      else {
-        figure.style.left = (location.left + 1) + 'px';  
-      }      
-    }
-    else if (location.side == 'right') {
-      if (location.bottom + figure.clientWidth >= window.innerHeight) {
-        util.flipElement(figure, 180);
-      }
-      else {
-        figure.style.bottom = (location.bottom + 1) + 'px';
-      }
-    }
-    else if (location.side == 'top') {
-      if (location.left <= 0) {
-        util.flipElement(figure, 90);
-      }
-      else {
-        figure.style.left = (location.left - 1) + 'px';
-      }
-    }
-    else if (location.side == 'left') {
-      if (location.bottom <= 0) {
-        util.flipElement(figure, 0);
-      }
-      else {
-        figure.style.bottom = (location.bottom - 1) + 'px';
-      }
-    }
-
-    setTimeout(
-      function() {
-        if (--distance < 0) {
-          d.plz();
-        }
-        else {
-          d.run(distance);
-        }
-      }, 1);
+    animation.run(this, distance, function() {d.plz();});
   };
 
   d.escape = function() {
     figure.parentNode.removeChild(figure);
     max_statements = 0;
+  }
+
+  d.getDirection = function() {
+    return doge_direction;
+  }
+
+  d.turnAround = function() {
+    if (doge_direction == 'right') {
+      figure.src = doge_directions['left'];
+      doge_direction = 'left';
+    }
+    else {
+      figure.src = doge_directions['right'];
+      doge_direction = 'right'
+    }
   }
 
   return d;
