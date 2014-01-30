@@ -5,6 +5,9 @@ wow such good doge. doge will come to your pages and say content aware things lo
 
 ![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
 
+## Tipping
+So can tip **dogecoin**: DFU8ydPgDL6yzjDVFHdY3B333mEq61EJz3
+
 ## Usage
 There is two ways to use this library. Either as Chrome extension (recommended) or bookmarklet. You can even use this library at your very own web page.
 
