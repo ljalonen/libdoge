@@ -6,41 +6,30 @@ wow such good doge. doge will come to your pages and say content aware things lo
 ![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/libdoge.gif)
 
 ## Tipping
-So can tip **dogecoin**: DFU8ydPgDL6yzjDVFHdY3B333mEq61EJz3
+So can tip **dogecoin**: DFU8ydPgDL6yzjDVFHdY3B333mEq61EJz3 (this goes to the original developer!)
 
 ## Usage
 There is two ways to use this library. Either as Chrome extension (recommended) or bookmarklet. You can even use this library at your very own web page.
 
-### Chrome (recommended)
+### Chrome and Firefox (recommended)
+
+#### Chrome
+
 Install Chrome extension available at [Chrome Store][chromestore]
 
 
 then just click doge that invaded your browser
 ![wow screenshot](https://raw.github.com/ljalonen/libdoge/master/screenshots/chrome-extension.png)
 
+#### Firefox
 
-### Others Firefox, Safari, ... (and Chrome too) 
+Pretty much the same as Chrome.
+Install Firefox add-on available at [Firefox Add-ons][firefoxstore]
 
-#### Bookmarklet
-Some web browsers (e.g. Chrome) might respect content policy set by web pages (e.g. Facebook) so bookmarklet might not work. They are rare but exist, so if you can use Chrome extension you are better off with it.
+### Others 
 
-Go to this [page][bookmarklet] and follow instructions
+Sorry, but ljalonen had broken bookmarklet.
 
-OR
-
-* Create new bookmark
-* Set following text to URL
-
-```javascript
-javascript:void ((function(){var b=document.createElement("script");b.setAttribute("src","https://raw.github.com/ljalonen/libdoge/master/libdoge/bookmarklet-min.js");document.body.appendChild(b)})());
-```
-
-* Add to bookmarks toolbar
-* Click bookmark to dogefy
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ljalonen/libdoge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
-   [chromestore]: https://chrome.google.com/webstore/detail/such-good-doge/ifbchccfedjkkhlnffjckaghjdpchhmo  "Chrome store"
-   [bookmarklet]: https://rawgithub.com/ljalonen/libdoge/master/bookmarklet.html "Doge"
-   [wikibookmarklet]: http://en.wikipedia.org/wiki/Bookmarklet "Bookmarklet"
+   [chromestore]: https://chrome.google.com/webstore/detail/such-good-doge/ifbchccfedjkkhlnffjckaghjdpchhmo  "Chrome Webstore"
+   [firefoxstore]: https://addons.mozilla.org/en-US/firefox/addon/libdoge-firedoge-edition "Firefox Add-ons (new)"
+   
