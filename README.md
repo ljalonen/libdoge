@@ -15,7 +15,7 @@ There is two ways to use this library. Either as Chrome extension (recommended) 
 
 #### Chrome
 
-Install Chrome extension available at [Chrome Store][chromestore]
+Install Chrome extension available at [Chrome Webstore][chromestore]
 
 
 then just click doge that invaded your browser
@@ -28,8 +28,8 @@ Install Firefox add-on available at [Firefox Add-ons][firefoxstore]
 
 ### Others 
 
-Sorry, but ljalonen had broken bookmarklet.
+New bookmarklet [here][bookmarklet]
 
    [chromestore]: https://chrome.google.com/webstore/detail/such-good-doge/ifbchccfedjkkhlnffjckaghjdpchhmo  "Chrome Webstore"
    [firefoxstore]: https://addons.mozilla.org/en-US/firefox/addon/libdoge-firedoge-edition "Firefox Add-ons (new)"
-   
+   [bookmarklet]: https://htmlpreview.github.io/?https://github.com/manOnWebs/libdoge-firefox/master/bookmarklet.html  "here"
